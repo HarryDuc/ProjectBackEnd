@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-md navbar-dark bg-primary">
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div class="container">
+      <ul class="navbar-nav mr-auto">
+        <li class="nav-item <%= pageTitle === "Trang chủ"? "active":""%>">
+          <a class="nav-link" href="/">Trang chủ <span class="sr-only">(current)</span></a>
+        </li>
+        <% if (isUser) { %>
+        <li class="nav-item <%= pageTitle === "Giỏ hàng"? "active":""%>">
+          <a class="nav-link" href="/cart">Giỏ hàng</a>
+        </li>
+        <li class="nav-item <%= pageTitle === "Hóa đơn"? "active":""%>">
+          <a class="nav-link" href="/orders">Hóa đơn</a>
+        </li>
+        <% } else {%>
+        <li class="nav-item <%= pageTitle === "Đăng nhập"? "active":""%>">
+          <a class="nav-link" href="/login">Đăng nhập</a>
+        </li>
+        <li class="nav-item <%= pageTitle === "Đăng ký"? "active":""%>">
+          <a class="nav-link" href="/signup">Đăng ký</a>
+        </li>
+        <% } %>
+        <% if (isAdmin) {%>
+        <li class="nav-item <%= pageTitle === "Thêm sản phẩm" ? "active":""%>">
+          <a class="nav-link" href="/admin/add">Thêm sản phẩm</a>
+        </li>
+        <li class="nav-item <%= pageTitle === "Quản lý hóa đơn"? "active":""%>">
+          <a class="nav-link" href="/admin/orders">Quản lý hóa đơn</a>
+        </li>
+        <% } %>
+      </ul>
+      <% if (isUser) { %>
+      <form action="/logout" method="POST">
+        <input type="submit" value="Đăng xuất" class="btn btn-danger">
+      </form>
+      <% } %>
+
+    </div>
+  </div>
+</nav>

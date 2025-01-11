@@ -1,0 +1,48 @@
+<%- include ("./parts/header.ejs") %>
+<%- include ("./parts/navbar.ejs") %>
+<style>
+    .container-success {
+        width: 500px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        padding: 20px 30px;
+        flex: 1;
+        margin-left: auto;
+        margin-right: auto;
+        margin-top: 200px;
+    }
+
+    .container-success h1 {
+        font-size: 24px;
+        color: #2c3e50;
+        margin-bottom: 20px;
+    }
+
+    .container-success p {
+        font-size: 18px;
+        color: #34495e;
+        margin: 10px 0;
+    }
+
+    .order-id {
+        font-weight: bold;
+        color: #27ae60;
+    }
+
+    .icon {
+        font-size: 50px;
+        color: #27ae60;
+        margin-bottom: 20px;
+    }
+</style>
+
+<div class="container-success center flex-d justify-content-center align-items-center">
+    <div class="icon">✔️</div>
+    <h1>Thanh toán thành công</h1>
+    <p>Mã số đơn hàng của bạn là <span class="order-id"><%= orderId %></span>.</p>
+    <p>Bạn có thể xem chi tiết trong <a href="/orders" style="color: #3498db; text-decoration: none;">đơn hàng của tôi</a>.</p>
+    <a href="/" class="btn btn-primary">Tiếp tục mua hàng</a>
+</div>
+<%- include ("./parts/footer.ejs") %>

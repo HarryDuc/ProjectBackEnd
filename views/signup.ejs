@@ -1,0 +1,49 @@
+<%- include ("./parts/header.ejs") %>
+<%- include ("./parts/navbar.ejs") %>
+
+<div class="container text-center">
+    <h1 class="mt-4 mb-3">Đăng kí</h1>
+    <form action="/signup" method="POST">
+        <input type="text" class="form-control mb-2" name="username" placeholder="Tên người dùng">
+        <% let usernameError = validationErrors.find(err => err.param === 'username') %>
+        <% if (usernameError) { %>
+        <p class="alert alert-danger">
+            <%= usernameError.msg %>
+        </p>
+        <% } %>
+        <input type="email" class="form-control mb-2" name="email" placeholder="Email">
+        <% let emailError = validationErrors.find(err => err.param === 'email') %>
+        <% if (emailError) { %>
+        <p class="alert alert-danger">
+            <%= emailError.msg %>
+        </p>
+        <% } %>
+        <input type="password" class="form-control mb-2" name="password" placeholder="Mật khẩu">
+        <% let passwordError = validationErrors.find(err => err.param === 'password') %>
+        <% if (passwordError) { %>
+        <p class="alert alert-danger">
+            <%= passwordError.msg %>
+        </p>
+        <% } %>
+        <input type="password" class="form-control mb-2" name="confirmPassword" placeholder="Xác nhận mật khẩu">
+        <% let confirmPasswordError = validationErrors.find(err => err.param === 'confirmPassword') %>
+        <% if (confirmPasswordError) { %>
+        <p class="alert alert-danger">
+            <%= confirmPasswordError.msg %>
+        </p>
+        <% } %>
+        <input type="submit" value="Tạo tài khoản" class="btn btn-primary">
+    </form>
+    <br>
+    <% if (authError) { %>
+    <p class="alert alert-danger">
+        <%=authError %>
+    </p>
+    <% } %>
+    <br>
+    <div>
+        Đã có tài khoản? <a href="/login">Đăng nhập ngay</a>
+    </div>
+</div>
+
+<%- include ("./parts/footer.ejs") %>

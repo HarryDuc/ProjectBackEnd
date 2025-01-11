@@ -1,0 +1,43 @@
+<%- include ("./parts/header.ejs") %>
+<%- include ("./parts/navbar.ejs") %>
+
+<div class="container">
+    <h1 class="mt-4 mb-3">Sản phẩm</h1>
+    <% if (cartErrors) { %>
+    <div class="alert alert-danger mb-3">
+        <%= cartErrors.msg %>
+    </div>
+    <% } %>
+    <% if (products.length === 0) { %>
+    <div class="alert alert-danger mb-3">
+        Không có sản phẩm nào.
+    </div>
+    <% } else { %>
+    <div class="row">
+        <% for (let product of products) { %>
+        <div class="col col-12 col-md-6 col-lg-4 col-xl-3">
+            <div class="card mb-4 shadow-sm">
+                <img src="<%= product.img %>" class="card-img-top" width="100%" height="225">
+                <div class="card-body">
+                    <h5 class="card-title">
+                        <a href="/product/<%= product._id %> "> <%= product.name %> </a>
+                    </h5>
+                    <p class="card-text text-muted">Giá: <%= product.price %> vnđ</p>
+                    <form action="/cart" method="POST">
+                        <input type="number" name="amount" class="form-control" value="1">
+                        <input type="hidden" name="productId" value="<%=product._id %>">
+                        <input type="hidden" name="productName" value="<%= product.name %>">
+                        <input type="hidden" name="productPrice" value=<%=product.price%>>
+                        <input type="hidden" name="redirectTo" value=<%='/'%>>
+                        <input type="submit" value="Thêm vào giỏ hàng" class="btn btn-primary mt-2 ">
+                    </form>
+
+                </div>
+            </div>
+        </div>
+        <% } %>
+    </div>
+</div>
+<% } %>
+</div>
+<%- include ("./parts/footer.ejs") %>

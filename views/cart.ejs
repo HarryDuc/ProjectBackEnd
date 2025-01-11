@@ -1,0 +1,58 @@
+<%- include ("./parts/header.ejs") %>
+<%- include ("./parts/navbar.ejs") %>
+
+<div class="container">
+    <% if(items.length === 0) { %>
+    <p class="alert alert-danger">Không có sản phẩm nào trong giỏ hàng</p>
+    <% } else { %>
+
+    <h2 class="mt-4 mb-3">Giỏ hàng</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Tổng</th>
+                <th scope="col"></th>
+            </tr>
+        </thead>
+        <tbody>
+            <% let totalPrice = 0; %>
+            <% for (let i =0; i< items.length; i++ ){  %>
+            <tr>
+                <th scope="row"><%= i+1 %> </th>
+                <td> <a href="/product/<%= items[i].productId %>"><%= items[i].name %></a> </td>
+                <td> <%= items[i].price %> vnđ</td>
+                <form method="POST">
+                    <td> <input type="text" name="amount" class="form-control" value="<%= items[i].amount %>"> </td>
+                    <td> <%= items[i].price * items[i].amount %> vnđ</td>
+                    <% totalPrice += items[i].price * items[i].amount  %>
+                    <td>
+                        <input type="hidden" name="cartId" value="<%= items[i]._id %>">
+                        <input type="submit" class="btn btn-success " value="Mua" formaction="/cart/confirm/">
+                        <input type="submit" class="btn btn-danger" value="Xóa" formaction="/cart/delete">
+                    </td>
+                </form>
+            </tr>
+            <% } %>
+            <tr class="table-info">
+                <td></td>
+                <th>Tổng tiền sản phẩm</th>
+                <td></td>
+                <td></td>
+                <td><%= totalPrice %> vnđ</td>
+
+                <form method="POST">
+                    <td>
+                        <input type="submit" class="btn btn-success" value="Thanh toán tất cả" formaction="/cart/confirm/all">
+                        <input type="submit" class="btn btn-danger" value="Xóa tất cả" formaction="/cart/delete-all">
+                    </td>
+                </form>
+            </tr>
+        </tbody>
+    </table>
+    <% } %>
+</div>
+<%- include ("./parts/footer.ejs") %>
