@@ -22,7 +22,7 @@
                     <h5 class="card-title">
                         <a href="/product/<%= product._id %> "> <%= product.name %> </a>
                     </h5>
-                    <p class="card-text text-muted">Giá: <%= product.price %> vnđ</p>
+                    <p class="card-text text-muted">Giá: <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(product.price) %></p>
                     <form action="/cart" method="POST">
                         <input type="number" name="amount" class="form-control" value="1">
                         <input type="hidden" name="productId" value="<%=product._id %>">

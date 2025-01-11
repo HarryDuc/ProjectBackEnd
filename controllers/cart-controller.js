@@ -33,24 +33,7 @@ exports.postCart = (req, res, next) => {
       .catch((err) => next(err));
   } else {
     req.flash("cartErrors", validationResult(req).array());
-    res.redirect(req.body.redirectTo); // redirect them to wherever they came from
-  }
-};
-
-exports.editCart = (req, res, next) => {
-  if (validationResult(req).isEmpty()) {
-    cartModel
-      .updateItemById(req.body.cartId, {
-        timeStamp: Date.now(),
-        amount: req.body.amount,
-      })
-      .then(() => {
-        res.redirect("/cart");
-      })
-      .catch((err) => next(err));
-  } else {
-    req.flash("cartErrors", validationResult(req).array());
-    res.redirect("/cart"); // redirect them to wherever they came from
+    res.redirect(req.body.redirectTo);
   }
 };
 
@@ -64,7 +47,7 @@ exports.deleteFromCart = (req, res, next) => {
       .catch((err) => next(err));
   } else {
     req.flash("cartErrors", validationResult(req).array());
-    res.redirect("/cart"); // redirect them to wherever they came from
+    res.redirect("/cart");
   }
 };
 

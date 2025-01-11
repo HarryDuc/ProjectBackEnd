@@ -31,9 +31,9 @@
             <tr>
                 <th scope="row"><%= i+1 %> </th>
                 <td> <a href="/product/<%= itemsToConfirm[i].productId %>"><%= itemsToConfirm[i].name %></a> </td>
-                <td> <%= itemsToConfirm[i].price %> vnđ </td>
+                <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(itemsToConfirm[i].price) %> </td>
                 <td> <%= itemsToConfirm[i].amount %> </td>
-                <td> <%= itemsToConfirm[i].price * itemsToConfirm[i].amount %> vnđ</td>
+                <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(itemsToConfirm[i].price * itemsToConfirm[i].amount) %></td>
                 <% totalPrice += itemsToConfirm[i].price * itemsToConfirm[i].amount  %>
                 <td></td>
             </tr>
@@ -43,7 +43,7 @@
                 <th>Tổng sản phẩm</th>
                 <td></td>
                 <td></td>
-                <td><%= totalPrice %> vnđ</td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></td>
                 <td></td>
             </tr>
             <tr>

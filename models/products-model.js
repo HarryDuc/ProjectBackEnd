@@ -28,7 +28,6 @@ exports.getAllProducts = () => {
 
 exports.getProductById = (id) => {
   return new Promise((resolve, reject) => {
-    // connect to DB
     mongoose
       .connect(DB_URL)
       .then(() => {
@@ -48,7 +47,6 @@ exports.getProductById = (id) => {
 
 exports.getFirstProduct = () => {
   return new Promise((resolve, reject) => {
-    // connect to DB
     mongoose.connect(DB_URL).then(() => {
       Product.findOne()
         .then((product) => {

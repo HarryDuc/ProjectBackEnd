@@ -174,23 +174,23 @@ exports.getAllOrders = () => {
   });
 };
 
-exports.getOrdersByStatus = (status) => {
-  return new Promise((resolve, reject) => {
-    mongoose
-      .connect(DB_URL)
-      .then(() => {
-        Order.find({ status: status })
-          .then((orders) => {
-            resolve(orders);
-            mongoose.disconnect();
-          })
-          .catch((findErr) => {
-            reject(findErr);
-            mongoose.disconnect();
-          });
-      })
-      .catch((connectionErr) => {
-        reject(connectionErr);
-      });
-  });
-};
+// exports.getOrdersByStatus = (status) => {
+//   return new Promise((resolve, reject) => {
+//     mongoose
+//       .connect(DB_URL)
+//       .then(() => {
+//         Order.find({ status: status })
+//           .then((orders) => {
+//             resolve(orders);
+//             mongoose.disconnect();
+//           })
+//           .catch((findErr) => {
+//             reject(findErr);
+//             mongoose.disconnect();
+//           });
+//       })
+//       .catch((connectionErr) => {
+//         reject(connectionErr);
+//       });
+//   });
+// };

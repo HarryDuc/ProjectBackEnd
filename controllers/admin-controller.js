@@ -32,23 +32,11 @@ exports.postAdd = (req, res, next) => {
 };
 
 exports.getOrders = (req, res, next) => {
-  let status = req.query.status;
-  let ordersModelPromise;
-  let validStatuses = ["pending", "complete"];
+  let ordersModelPromise = ordersModel.getAllOrders();
 
-  let search = req.query.search;
-
-  // if filtering:
-  if (status && validStatuses.includes(status))
-    ordersModelPromise = ordersModel.getOrdersByStatus(status);
-  else ordersModelPromise = ordersModel.getAllOrders();
-
-  // get the order from the Database,
   ordersModelPromise
     .then((orders) => {
-      if (search) {
-        orders = orders.filter((order) => order.username.includes(search));
-      }
+
       res.render("manage-orders", {
         pageTitle: "Quản lý hóa đơn",
         searchErrors: req.flash("searchErrors")[0],

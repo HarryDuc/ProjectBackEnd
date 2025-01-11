@@ -24,10 +24,10 @@
             <tr>
                 <th scope="row"><%= i+1 %> </th>
                 <td> <a href="/product/<%= items[i].productId %>"><%= items[i].name %></a> </td>
-                <td> <%= items[i].price %> vnđ</td>
+                <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(items[i].price) %></td>
                 <form method="POST">
                     <td> <input type="text" name="amount" class="form-control" value="<%= items[i].amount %>"> </td>
-                    <td> <%= items[i].price * items[i].amount %> vnđ</td>
+                    <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(items[i].price * items[i].amount) %></td>
                     <% totalPrice += items[i].price * items[i].amount  %>
                     <td>
                         <input type="hidden" name="cartId" value="<%= items[i]._id %>">
@@ -42,7 +42,7 @@
                 <th>Tổng tiền sản phẩm</th>
                 <td></td>
                 <td></td>
-                <td><%= totalPrice %> vnđ</td>
+                <td><%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(totalPrice) %></td>
 
                 <form method="POST">
                     <td>

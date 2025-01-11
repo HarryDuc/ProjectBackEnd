@@ -6,7 +6,7 @@ exports.getProduct = (req, res, next) => {
     .getProductById(id)
     .then((product) => {
       res.render("product", {
-        pageTitle: "View " + product.name,
+        pageTitle: product.name,
         product: product,
         isUser: req.session.userId,
         cartErrors: req.flash("cartErrors")[0],
@@ -20,7 +20,7 @@ exports.getProduct = (req, res, next) => {
 exports.firstProduct = (req, res, next) => {
   productsModel.getFirstProduct().then((product) => {
     res.render("product", {
-      pageTitle: "View " + product.name,
+      pageTitle: product.name,
       product: product,
       isUser: req.session.userId,
       isAdmin: req.session.isAdmin,

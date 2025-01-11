@@ -29,9 +29,9 @@
                 <th scope="row"><%= i+1 %> </th>
                 <td><%= orders[i].username %> </td>
                 <td> <a href="/product/<%= orders[i].productId %>"><%= orders[i].name %></a> </td>
-                <td> <%= orders[i].price %> vnđ </td>
+                <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[i].price) %> </td>
                 <td> <%= orders[i].amount %> </td>
-                <td> <%= orders[i].price * orders[i].amount %> vnđ </td>
+                <td> <%= new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(orders[i].price * orders[i].amount) %></td>
                 <td> <%= orders[i].address%> </td>
                 <form method="POST" action="/admin/orders/update">
                     <td>

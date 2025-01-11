@@ -26,9 +26,8 @@
             <%= descriptionError.msg %>
         </p>
         <% } %>
-        <select type="password" class="form-control mb-2" name="category">
-            <option value="product" default>Sản phẩm</option>
-        </select>
+        <input type="text" name="category" value="product" hidden="none">
+
         <% let categoryError = inputErrors.find(err => err.param === 'category') %>
         <% if (categoryError) { %>
         <p class="alert alert-danger">

@@ -2,7 +2,6 @@ const productsModel = require("../models/products-model");
 
 exports.getHome = (req, res, next) => {
   let productsModelPromise = productsModel.getAllProducts();
-
   productsModelPromise.then((products) => {
     res.render("index", {
       pageTitle: "Trang chủ",

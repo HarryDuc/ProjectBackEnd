@@ -28,7 +28,7 @@ exports.registerNewUser = (username, email, password) => {
     mongoose.connect(DB_URL).then(() => {
       User.findOne({ email: email }).then((user) => {
         if (user) {
-          reject("There exists an account with this email address");
+          reject("Tài khoản email đã được đăng ký.");
           mongoose.disconnect();
         } else {
           bcrypt.hash(password, 10).then((encryptedPassword) => {
@@ -51,11 +51,10 @@ exports.registerNewUser = (username, email, password) => {
         }
       })
       .then(() => {
-        // Gửi email
         return transporter.sendMail({
-          from: '"Vu Minh Duc Send Email" <vuminhduc.contact@gmail.com>',
-          to: email, // Gửi đến email đăng ký
-          subject: "Chào mừng bạn đến với hệ thống!",
+          from: '"Shop Online" <vuminhduc.contact@gmail.com>',
+          to: email,
+          subject: "Đăng ký tài khoản thành công!",
           text: "Cảm ơn bạn đã đăng ký tài khoản.",
           html: "<b>Chào mừng bạn!</b><p>Cảm ơn bạn đã đăng ký tài khoản với chúng tôi.</p>",
         });
@@ -79,12 +78,12 @@ exports.validateLogin = (email, password) => {
       User.findOne({ email: email })
         .then((user) => {
           if (!user) {
-            reject("There is no account associated with this email address");
+            reject("Không có tài khoản nào được tìm thấy.");
             mongoose.disconnect();
           } else {
             bcrypt.compare(password, user.password).then((same) => {
               if (!same) {
-                reject("Incorrect password");
+                reject("Mật khẩu không chính xác!");
                 mongoose.disconnect();
               } else {
                 mongoose.disconnect();
@@ -97,19 +96,18 @@ exports.validateLogin = (email, password) => {
           }
         })
         .then(() => {
-          // Gửi email
           return transporter.sendMail({
-            from: '"Vu Minh Duc Send Email" <vuminhduc.contact@gmail.com>',
-            to: email, // Gửi đến email đăng ký
-            subject: "Chào mừng bạn đến với hệ thống!",
-            text: "Cảm ơn bạn đã đăng ký tài khoản.",
-            html: "<b>Chào mừng bạn!</b><p>Cảm ơn bạn đã đăng ký tài khoản với chúng tôi.</p>",
+            from: '"Shop Online" <vuminhduc.contact@gmail.com>',
+            to: email,
+            subject: "Chào mừng bạn đến với Shop!",
+            text: "Chào mừng bạn đã trở lại trang của chúng tôi.",
+            html: "<b>Chào mừng bạn!</b><p>Cảm ơn bạn đã trở lại với chúng tôi.</p>",
           });
         })
         .then((info) => {
           console.log("Email sent: %s", info.messageId);
           mongoose.disconnect();
-          resolve("Tài khoản đã được tạo thành công.");
+          resolve("Đăng nhập thành công.");
         })
         .catch((err) => {
           mongoose.disconnect();

@@ -1,5 +1,4 @@
 const bodyParser = require("body-parser");
-
 const router = require("express").Router();
 const signupController = require("../controllers/signup-controller");
 const check = require("express-validator").check;
@@ -11,22 +10,22 @@ router.post(
   "/",
   authGuard.notAuth,
   bodyParser.urlencoded({ extended: true }),
-  check("username").not().isEmpty().withMessage("Username can't be blank!"),
+  check("username").not().isEmpty().withMessage("Tên người dùng không được để trống!"),
   check("email")
     .not()
     .isEmpty()
-    .withMessage("Email can't be empty!")
+    .withMessage("Email không được để trống!")
     .isEmail()
-    .withMessage("Not a valid Email format!"),
+    .withMessage("Định dạng email không đúng!"),
   check("password")
     .not()
     .isEmpty()
-    .withMessage("Password can't be empty!")
+    .withMessage("Mật khẩu không được để trống!")
     .isLength({ min: 6 })
-    .withMessage("Password needs to be at least 6 chatacters"),
+    .withMessage("Mật khẩu không được ít hơn 6 ký tự!"),
   check("confirmPassword").custom((value, { req }) => {
     if (value === req.body.password) return true;
-    else throw "passwords don't match!";
+    else throw "Xác nhận mật khẩu không trùng khớp!";
   }),
   signupController.postSignup
 );

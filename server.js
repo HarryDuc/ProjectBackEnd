@@ -26,7 +26,7 @@ app.use(express.static("./public"));
 
 app.use(
   session({
-    secret: "Secret encryption message for sessions",
+    secret: "Tin nhắn mã hóa cho các lần đăng nhập.",
     saveUninitialized: false,
     resave: true,
     store: STORE,
@@ -152,7 +152,7 @@ app.post("/payment", async (req, res) => {
     };
 
     const result = await axios(options);
-
+    console.log(result.data.payUrl);
     (async () => {
       const open = (await import("open")).default;
       open(result.data.payUrl)
@@ -203,7 +203,7 @@ app.use((error, req, res, next) => {
 app.use((req, res, next) => {
   res.status(404);
   res.render("not-found", {
-    pageTitle: "404 | Page not found",
+    pageTitle: "404 | Trang không tồn tại",
     isUser: req.session.userId,
     isAdmin: req.session.isAdmin,
   });

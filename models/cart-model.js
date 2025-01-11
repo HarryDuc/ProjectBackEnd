@@ -118,7 +118,7 @@ exports.getItemById = (itemId) => {
       CartItem.findById(itemId)
         .then((result) => {
           if (!result) {
-            reject("This matches no item in cart");
+            reject("Không khớp với mục nào trong giỏ hàng!");
             mongoose.disconnect();
           } else {
             resolve(result);

@@ -1,5 +1,4 @@
 const bodyParser = require("body-parser");
-
 const router = require("express").Router();
 const loginController = require("../controllers/login-controller");
 const check = require("express-validator").check;
@@ -14,15 +13,15 @@ router.post(
   check("email")
     .not()
     .isEmpty()
-    .withMessage("Email is required!")
+    .withMessage("Vui lòng nhập email!")
     .isEmail()
-    .withMessage("Invalid Email format!"),
+    .withMessage("Nhập đúng định dạng email ví dụ abc@gmail.com!"),
   check("password")
     .not()
     .isEmpty()
-    .withMessage("Password is required!")
+    .withMessage("Vui lòng nhập mật khẩu!")
     .isLength({ min: 6 })
-    .withMessage("Password needs to be at least 6 chatacters"),
+    .withMessage("Mật khẩu dài ít nhật 6 ký tự."),
   loginController.postLogin
 );
 

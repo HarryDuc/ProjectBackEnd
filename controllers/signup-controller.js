@@ -5,7 +5,7 @@ const validationResult = require("express-validator").validationResult;
 
 exports.getSignup = (req, res, next) => {
   res.render("signup", {
-    pageTitle: "Signup",
+    pageTitle: "Đăng ký",
     authError: req.flash("authError")[0],
     validationErrors: req.flash("validationErrors"),
     isUser: req.session.userId,

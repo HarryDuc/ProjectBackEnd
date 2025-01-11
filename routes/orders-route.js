@@ -8,7 +8,7 @@ router.post(
   "/new-one",
   authGuard.isAuth,
   bodyParser.urlencoded({ extended: true }),
-  check("address").not().isEmpty().withMessage("Delivery Address is required!"),
+  check("address").not().isEmpty().withMessage("Vui lòng nhập địa chỉ!"),
   ordersController.buyOne
 );
 
@@ -16,7 +16,7 @@ router.post(
   "/new-all",
   authGuard.isAuth,
   bodyParser.urlencoded({ extended: true }),
-  check("address").not().isEmpty().withMessage("Delivery Address is required!"),
+  check("address").not().isEmpty().withMessage("Vui lòng nhập địa chỉ!"),
   ordersController.buyAll
 );
 
