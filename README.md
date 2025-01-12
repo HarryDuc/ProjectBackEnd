@@ -10,7 +10,6 @@
 
 ## Setup
 npm install
-Note: npm install open=7.0.4
 
 ## Run
 npm start or node server.js

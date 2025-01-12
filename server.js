@@ -6,6 +6,7 @@ const flash = require("connect-flash");
 const app = express();
 const axios = require("axios");
 const crypto = require("crypto");
+const os = require("os");
 const STORE = new SessionStore({
   uri: "mongodb://localhost:27017/online-store",
   collection: "sessions",
@@ -85,6 +86,20 @@ app.use("/payment-success", (req, res) => {
     res.render("success", { orderId: "Không hợp lệ hoặc không hoàn thành" });
   }
 });
+function getLocalIP() {
+  const networkInterfaces = os.networkInterfaces();
+  const localIPs = [];
+
+  for (const interfaceName in networkInterfaces) {
+    for (const iface of networkInterfaces[interfaceName]) {
+      if (iface.family === "IPv4" && !iface.internal) {
+        localIPs.push(iface.address);
+      }
+    }
+  }
+  return localIPs[localIPs.length - 1];
+}
+const localIPs = getLocalIP();
 app.post("/payment", async (req, res) => {
   const userId = req.session.userId;
   const orderIdPayment = req.body.orderId;
@@ -107,7 +122,7 @@ app.post("/payment", async (req, res) => {
     const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
     const partnerCode = "MOMO";
     const orderInfo = `Thanh toán đơn hàng ${orderIdPayment}`;
-    const redirectUrl = "http://localhost:3000/payment-success";
+    const redirectUrl = `http://${localIPs}:3000/payment-success`;
     const ipnUrl = "https://0778-14-178-58-205.ngrok-free.app/callback";
     const requestType = "payWithMethod";
     const extraData = "";
@@ -153,27 +168,56 @@ app.post("/payment", async (req, res) => {
 
     const result = await axios(options);
     console.log(result.data.payUrl);
-    (async () => {
-      const open = (await import("open")).default;
-      open(result.data.payUrl)
-        .then(() => console.log("Đã mở đường dẫn thành công"))
-        .catch((err) => console.error("Không thể mở đường dẫn:", err));
-    })();
-    // res.send(`
-    //   <html>
-    //     <head>
-    //       <title>Redirecting...</title>
-    //       <script>
-    //         window.location.href = "${result.data.payUrl}";
-    //       </script>
-    //     </head>
-    //     <body>
-    //       <p>Nếu bạn không được chuyển hướng tự động, hãy bấm vào <a href="${result.data.payUrl}">đây</a>.</p>
-    //     </body>
-    //   </html>
-    // `);
-    // window.location.href = result.data.payUrl;
-    return res.status(200).json(result.data);
+    res.send(`
+      <html>
+        <head>
+          <title>Đang tải...</title>
+          <style>
+            body {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              height: 100vh;
+              margin: 0;
+              font-family: Arial, sans-serif;
+              background-color: #f4f4f4;
+            }
+            .loading-container {
+              text-align: center;
+            }
+            .spinner {
+              margin: 20px auto;
+              width: 50px;
+              height: 50px;
+              border: 5px solid #ccc;
+              border-top-color: #007bff;
+              border-radius: 50%;
+              animation: spin 1s linear infinite;
+            }
+            @keyframes spin {
+              to {
+                transform: rotate(360deg);
+              }
+            }
+            .message {
+              font-size: 18px;
+              color: #333;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="loading-container">
+            <div class="spinner"></div>
+            <p class="message">Đang chuyển hướng tới trang thanh toán...</p>
+          </div>
+          <script>
+            window.onload = function() {
+              window.location.href = "${result.data.payUrl}";
+            };
+          </script>
+        </body>
+      </html>
+    `);
   } catch (error) {
     console.error("Lỗi trong quá trình thanh toán:", error);
     return res.status(500).json({ message: error.message });
@@ -209,4 +253,4 @@ app.use((req, res, next) => {
   });
 });
 
-app.listen(3000, (err) => console.log("http://localhost:3000/"));
+app.listen(3000, (err) => console.log(`http://${localIPs}:3000/`));
