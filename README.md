@@ -15,6 +15,7 @@ npm install
 npm start or node server.js
 <br/>
 Mở trang: localhost:3000
+<br/>
 Mở với mạng nội bộ trong cùng một mạng: http://${localIPs}:3000/
 ## Giới thiệu
 - Trang web có admin quản lý sản phẩm
