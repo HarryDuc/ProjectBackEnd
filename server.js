@@ -7,8 +7,9 @@ const app = express();
 const axios = require("axios");
 const crypto = require("crypto");
 const os = require("os");
+require("dotenv").config();
 const STORE = new SessionStore({
-  uri: "mongodb://localhost:27017/online-store",
+  uri: process.env.MONGODB_URI,
   collection: "sessions",
 });
 
@@ -23,7 +24,6 @@ const ordersRouter = require("./routes/orders-route");
 const adminRouter = require("./routes/admin-route");
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.use(express.static("./public"));
 
 app.use(
   session({
@@ -118,8 +118,8 @@ app.post("/payment", async (req, res) => {
       return res.status(400).json({ message: "Giỏ hàng không tồn tại" });
     }
     console.log(ordersItem);
-    const accessKey = "F8BBA842ECF85";
-    const secretKey = "K951B6PE1waDMi640xX08PD3vg6EkVlz";
+    const accessKey = process.env.ACCESS_KEY;
+    const secretKey = process.env.SECRET_KEY;
     const partnerCode = "MOMO";
     const orderInfo = `Thanh toán đơn hàng ${orderIdPayment}`;
     const redirectUrl = `http://${localIPs}:3000/payment-success`;
@@ -168,56 +168,7 @@ app.post("/payment", async (req, res) => {
 
     const result = await axios(options);
     console.log(result.data.payUrl);
-    res.send(`
-      <html>
-        <head>
-          <title>Đang tải...</title>
-          <style>
-            body {
-              display: flex;
-              justify-content: center;
-              align-items: center;
-              height: 100vh;
-              margin: 0;
-              font-family: Arial, sans-serif;
-              background-color: #f4f4f4;
-            }
-            .loading-container {
-              text-align: center;
-            }
-            .spinner {
-              margin: 20px auto;
-              width: 50px;
-              height: 50px;
-              border: 5px solid #ccc;
-              border-top-color: #007bff;
-              border-radius: 50%;
-              animation: spin 1s linear infinite;
-            }
-            @keyframes spin {
-              to {
-                transform: rotate(360deg);
-              }
-            }
-            .message {
-              font-size: 18px;
-              color: #333;
-            }
-          </style>
-        </head>
-        <body>
-          <div class="loading-container">
-            <div class="spinner"></div>
-            <p class="message">Đang chuyển hướng tới trang thanh toán...</p>
-          </div>
-          <script>
-            window.onload = function() {
-              window.location.href = "${result.data.payUrl}";
-            };
-          </script>
-        </body>
-      </html>
-    `);
+    return res.redirect(result.data.payUrl);
   } catch (error) {
     console.error("Lỗi trong quá trình thanh toán:", error);
     return res.status(500).json({ message: error.message });

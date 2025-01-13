@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-const DB_URL = "mongodb://localhost:27017/online-store";
+require("dotenv").config();
+
+const DB_URL = process.env.MONGODB_URI;
 const productSchema = mongoose.Schema({
   name: String,
   img: String,

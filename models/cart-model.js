@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
+require("dotenv").config();
 
-const DB_URL = "mongodb://localhost:27017/online-store";
+const DB_URL = process.env.MONGODB_URI;
 const cartSchema = mongoose.Schema({
   name: String,
   amount: Number,

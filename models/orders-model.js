@@ -1,7 +1,9 @@
 const mongoose = require("mongoose");
 const { UserModel } = require("./auth-model");
 const authModel = require("./auth-model").UserModel;
-const DB_URL = "mongodb://localhost:27017/online-store";
+require("dotenv").config();
+
+const DB_URL = process.env.MONGODB_URI;
 const orderSchema = mongoose.Schema({
   name: String,
   amount: Number,
